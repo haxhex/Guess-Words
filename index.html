@@ -1,0 +1,75 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TopLearn.Com</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="message"></div>
+    <input type="text" class="hidden">
+    <button type="button">Start</button>
+</body>
+<script>
+    const message = document.querySelector(".message");
+    const guess = document.querySelector("input");
+    const button = document.querySelector("button");
+    const myArray = ["Helia", "Leila", "Ali", "Iliya", "Hedieh", "Zahra", "Alireza", "Arad"];
+
+    // show if user is playing
+    let inplay = false;
+    let scramble = "";
+    let scrambled = "";
+    let score = 0;
+    button.addEventListener("click", function () {
+        console.log("Clicked");
+        if (!inplay) {
+            inplay = true;
+            button.innerHTML = "Guess";
+            // show input box
+            guess.classList.toggle("hidden");
+            scramble = createWord();
+            scrambled = randomArray(scramble.split("")).join("");
+            message.innerHTML = scrambled;
+        } else {
+            let tempGuess = guess.value;
+            score++;
+            if (tempGuess === scramble) {
+                inplay = false;
+                message.innerHTML = "Correct it was " + scramble + " it look " + score + " guesses.";
+                button.innerHTML = "Start";
+                guess.classList.toggle("hidden");
+                guess.value = "";
+            } else {
+                message.innerHTML = "Wrong " + scrambled;
+            }
+        }
+    });
+
+    function createWord() {
+        // number of array
+        let randomIndex = Math.floor(Math.random() * myArray.length);
+        let tempWord = myArray[randomIndex];
+        return tempWord;
+    }
+
+    function randomArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            let temp = arr[i];
+            let j = Math.floor(Math.random() * (i + 1));
+            // change place
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+        return arr;
+    }
+</script>
+
+</html>
